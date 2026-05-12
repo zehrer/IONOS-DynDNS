@@ -38,6 +38,37 @@ chmod +x ionos_dyndns.py
 */5 * * * * ./ionos_dyndns.py --AAAA --api-prefix $publicprefix --api-secret $secret >> ionos_dyndns.log
 ```
 
+### systemd timer (alternative to cron)
+
+On systems without cron, use a systemd timer. Create `/etc/systemd/system/ionos-dyndns.service`:
+```ini
+[Unit]
+Description=Update IONOS DNS record
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /path/to/ionos_dyndns.py --AAAA -i eth0 -H your.domain.com --api-prefix PREFIX --api-secret SECRET
+```
+
+And `/etc/systemd/system/ionos-dyndns.timer`:
+```ini
+[Unit]
+Description=Run IONOS DynDNS update every 5 minutes
+
+[Timer]
+OnBootSec=30
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target
+```
+
+Then enable it:
+```sh
+sudo systemctl daemon-reload
+sudo systemctl enable --now ionos-dyndns.timer
+```
+
 ### General
 ```
 usage: ionos_dyndns.py [-h] [-4] [-6] [-i] [-H] --api-prefix  --api-secret
@@ -53,6 +84,14 @@ optional arguments:
   --api-prefix       API key publicprefix
   --api-secret       API key secret
 ```
+
+## Original project
+
+This is a fork of [lazaroblanc/IONOS-DynDNS](https://github.com/lazaroblanc/IONOS-DynDNS).
+
+**Changes in this fork:**
+- Fixed IPv6 address detection on systems where all global addresses carry the `mngtmpaddr` flag (e.g. SLAAC with stable MAC-derived addresses). The original script filtered out `mngtmpaddr` addresses, causing no IPv6 address to be found on such systems.
+- Added systemd timer usage example to the README.
 
 ## Ideas / To-do
 
