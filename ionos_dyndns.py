@@ -146,7 +146,7 @@ def get_ipv4_address():
 
 
 def get_ipv6_address(interface_name):
-    ip_output = subprocess.getoutput(f"ip -6 -o address show dev {interface_name} scope global | grep --invert temporary | grep --invert mngtmpaddr")
+    ip_output = subprocess.getoutput(f"ip -6 -o address show dev {interface_name} scope global | grep --invert temporary")
     if ip_output != "":
         ip_output_regex = r"(?:inet6)(?:\s+)(.+)(?:\/\d{1,3})"
         return re.search(ip_output_regex, ip_output, re.IGNORECASE).group(1)
