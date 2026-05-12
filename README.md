@@ -1,3 +1,12 @@
+## Original project
+
+This is a fork of [lazaroblanc/IONOS-DynDNS](https://github.com/lazaroblanc/IONOS-DynDNS).
+
+**Changes in this fork:**
+- Fixed IPv6 address detection on systems where all global addresses carry the `mngtmpaddr` flag (e.g. SLAAC with stable MAC-derived addresses). The original script filtered out `mngtmpaddr` addresses, causing no IPv6 address to be found on such systems.
+- Added systemd timer usage example to the README.
+
+
 # ionos_dyndns.py
 
 Create and update DNS records for a host using IONOS' API for use as a DynDNS (for example via a cronjob).
@@ -85,41 +94,6 @@ optional arguments:
   --api-secret       API key secret
 ```
 
-## Original project
 
-This is a fork of [lazaroblanc/IONOS-DynDNS](https://github.com/lazaroblanc/IONOS-DynDNS).
 
-**Changes in this fork:**
-- Fixed IPv6 address detection on systems where all global addresses carry the `mngtmpaddr` flag (e.g. SLAAC with stable MAC-derived addresses). The original script filtered out `mngtmpaddr` addresses, causing no IPv6 address to be found on such systems.
-- Added systemd timer usage example to the README.
 
-## Ideas / To-do
-
-- [ ] improve log messages (add a timestamp)
-- [ ] refactor duplicate code (~ line 94)
-
-<div align="center">
-<hr>
-<table>
-<tr>
-<td colspan=2>
-<h2>🐛 Bug reports & Feature requests 🆕</h2>
-If you've found a bug or want to request a new feature please <a href="https://github.com/lazaroblanc/IONOS-DynDNS/issues/new">open a new <b>Issue</b></a>
-<br><br>
-</td>
-</tr>
-<tr>
-<td>
-<h2>🤝 Contributing</h2>
-✅ Pull requests are welcome!
-<br><br>
-</td>
-<td>
-<h2>📃 License</h2>
-Published under the <b>Apache License 2.0</b><br>
-Please see the <a href="./LICENSE"><b>License</b></a> for details
-<br><br>
-</td>
-</tr>
-</table>
-</div>
